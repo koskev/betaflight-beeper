@@ -14,6 +14,14 @@
 
 #include <string.h>
 
+#ifndef __cplusplus
+#define bool uint8_t
+#define true 1
+#define false 0
+#endif
+
+#define STATIC_TEST static
+
 #define SENSE_DDR DDRB
 #define SENSE_PORT PORTB
 #define SENSE_PIN PB4
@@ -62,7 +70,6 @@ enum state {
 volatile uint8_t state = DISCONNECTED;
 // flag to stop sleep cycle. used to avoid long delays, when recovering the quad
 volatile bool stop_sleep = false;
-
 bool turn_off_signal_received = false;
 
 // XXX: this costs so much flash -.-
@@ -70,6 +77,15 @@ bool turn_off_signal_received = false;
 // since we only count in 16ms increments this this is saved as 16ms.
 // overflows in 50 days. so plenty
 uint32_t total_time = 0;
+
+#define USE_RUNTIME_FREQ_SET
+
+#ifdef USE_RUNTIME_FREQ_SET
+uint8_t base_freq = 21;
+#else
+#define base_freq 21
+#endif
+
 
 // Alternating on/off times
 // 2^(i+1) = cylces
@@ -79,35 +95,35 @@ uint32_t total_time = 0;
 
 typedef struct pattern_s{
 	uint8_t on_time;
-	uint8_t freq;
+	int8_t freq_offset;
 	uint8_t off_time;
 	uint8_t repeat;
 } pattern_t;
 
 // max vol = 21
-pattern_t beep_pattern[BEEP_PATTERN_NUM][BEEP_PATTERN_SIZE] = {{{WDTO_250MS, 21, WDTO_250MS, 4}, {WDTO_250MS, 21, WDTO_250MS, 0}},
-																{{WDTO_1S, 21, WDTO_1S, 4}, {WDTO_250MS, 21, WDTO_250MS, 2}}};
+pattern_t beep_pattern[BEEP_PATTERN_NUM][BEEP_PATTERN_SIZE] = {{{WDTO_250MS, 0, WDTO_250MS, 4}, {WDTO_250MS, 0, WDTO_250MS, 0}},
+																{{WDTO_1S, 0, WDTO_1S, 4}, {WDTO_250MS, 0, WDTO_250MS, 2}}};
 uint8_t current_pattern = 0;
 
 // saves space -.-
-inline uint32_t convert_wdto_to_16ms(uint8_t wdto_time){
+STATIC_TEST inline uint32_t convert_wdto_to_16ms(uint8_t wdto_time){
 	// 2^x = 16ms
 	return (1UL << (wdto_time));
 }
 
-inline void disable_pin_int(){
+STATIC_TEST inline void disable_pin_int(){
 	GIMSK &= ~(1 << PCIE);
 }
 
-bool is_turn_off_condition_set(){
+STATIC_TEST bool is_turn_off_condition_set(){
 	return (total_time > ms_to_internal(2000) && total_time < ms_to_internal(8000));
 }
 
-inline void enable_pin_int(){
+STATIC_TEST inline void enable_pin_int(){
 	GIMSK |= (1 << PCIE);
 }
 
-bool is_beeper_input_set(){
+STATIC_TEST bool is_beeper_input_set(){
 #ifdef SIGNAL_ACTIVE_LOW
 	return !(PINB & (1 << BEEPER_IN_PIN));
 #else
@@ -115,25 +131,25 @@ bool is_beeper_input_set(){
 #endif
 }
 
-inline bool is_button_pressed(){
+STATIC_TEST inline bool is_button_pressed(){
 	// button is active low
 	return !(PINB & (1 << BUTTON_PIN));
 }
 
-inline void set_watchdog(uint8_t time){
+STATIC_TEST inline void set_watchdog(uint8_t time){
 	wdt_reset();
 	WDTCR = (1 << WDCE) | (1 << WDTIE) | (time & 0x08 ? (1 << WDP3) : 0x00) | (time & 0x07);
 }
 
-inline void led_enable(){
+STATIC_TEST inline void led_enable(){
 	LED_PORT |= (1 << LED_PIN);
 }
 
-inline void led_disable() {
+STATIC_TEST inline void led_disable() {
 	LED_PORT &= ~(1 << LED_PIN);
 }
 
-void sleep(uint8_t time){
+STATIC_TEST void sleep(uint8_t time){
 	// TODO: disable stuff?
 
 	//enable wdt
@@ -145,7 +161,7 @@ void sleep(uint8_t time){
 	//wdt_disable();
 }
 
-bool is_button_long_pressed(){
+STATIC_TEST bool is_button_long_pressed(){
 	if(is_button_pressed()){
 		led_enable();
 		disable_pin_int();
@@ -157,7 +173,7 @@ bool is_button_long_pressed(){
 }
 
 #ifdef ENABLE_PATTERN_EDIT
-inline void record_pattern(uint8_t num){
+STATIC_TEST inline void record_pattern(uint8_t num){
 	bool initial_state = is_beeper_input_set();
 	for(int i = 0; i < BEEP_PATTERN_SIZE; ++i){
 		// sleep for all possible times until the state changes
@@ -180,7 +196,7 @@ inline void record_pattern(uint8_t num){
 }
 #endif
 
-void sleep_cycles(uint8_t time, uint8_t cycles){
+STATIC_TEST void sleep_cycles(uint8_t time, uint8_t cycles){
 	stop_sleep = false;
 	while(cycles && !stop_sleep){
 		sleep(time);
@@ -188,12 +204,12 @@ void sleep_cycles(uint8_t time, uint8_t cycles){
 	}
 }
 
-inline bool is_connected(){
+STATIC_TEST inline bool is_connected(){
 	return PINB & (1 << SENSE_PIN);
 }
 
 // Splitting them saves a few bytes
-void beep_enable(uint8_t freq){
+STATIC_TEST void beep_enable(uint8_t freq){
 	// set sleep mode to idle to enable pwm
 	set_sleep_mode(SLEEP_MODE_IDLE);
 	TCNT0 = 254;
@@ -203,7 +219,7 @@ void beep_enable(uint8_t freq){
 	TCCR0A |= (1 << COM0A0);
 }
 
-inline void beep_disable() {
+STATIC_TEST inline void beep_disable() {
 	TCCR0A &= ~(1 << COM0A0);
 	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 	//OCR0A = 0;
@@ -214,7 +230,7 @@ inline void beep_disable() {
 /**
  * "Totally" power off the µC. Can only be waked by button press or beep line. Used when user requests power off manually
  */
-inline void power_off() {
+STATIC_TEST inline void power_off() {
 	// Play confirm pattern
 	beep_enable(15);
 	sleep(WDTO_120MS);
@@ -234,17 +250,17 @@ inline void power_off() {
 	sleep_mode();
 }
 
-inline void on_connect(){
+STATIC_TEST inline void on_connect(){
 	total_time = 0; // reset time on connect event
 }
 
-void connected_action(){
+STATIC_TEST void connected_action(){
 	static uint8_t signal_time[4] = {0,0,0,0};
 	static bool last_beep_status = false;
 
 	// just beep if input signal
 	if(is_beeper_input_set()) {
-		beep_enable(21);
+		beep_enable(base_freq);
 	}
 	else {
 		beep_disable();
@@ -271,6 +287,16 @@ void connected_action(){
 			signal_time[2] > ms_to_internal(70) && signal_time[2] < ms_to_internal(130) &&
 			signal_time[1] > ms_to_internal(70) && signal_time[1] < ms_to_internal(130);
 			//&&	last_beep_status;
+
+#ifdef USE_RUNTIME_FREQ_SET
+	if(is_button_pressed()){
+		if(is_button_long_pressed()){
+			--base_freq;
+		} else {
+			++base_freq;
+		}
+	}
+#endif
 
 	// sleep a little bit to keep the timer running. avoids using another timer
 	sleep(WDTO_15MS);
@@ -316,7 +342,7 @@ void connected_action(){
 	++signal_time[0];
 }
 
-inline void on_disconnect(){
+STATIC_TEST inline void on_disconnect(){
 	// disable beeper in case it was beeping
 	beep_disable();
 	led_disable();
@@ -333,7 +359,7 @@ inline void on_disconnect(){
 	total_time = 0;
 }
 
-inline void disconnected_action(){
+STATIC_TEST inline void disconnected_action(){
 	// wait until BEEP_DELAY_TIME to start beeping
 	if(total_time > BEEP_DELAY_TIME) {
 		led_disable();
@@ -343,7 +369,7 @@ inline void disconnected_action(){
 			// repeat pattern j times
 			for(uint8_t j = 0; j < pattern.repeat; ++j){
 				// Beep enable part
-				beep_enable(pattern.freq);
+				beep_enable(base_freq + pattern.freq_offset);
 				// sleep instead of simple delay
 				sleep(pattern.on_time);
 
@@ -400,7 +426,7 @@ disconnected_check_button:
  *
  * power off -> connected <->  disconnected -> power off
  */
-inline void check_status(){
+STATIC_TEST inline void check_status(){
 	if(is_connected()){
 		// triggered on power on or disconnected -> connected
 		if(state != CONNECTED){
@@ -415,19 +441,16 @@ inline void check_status(){
 		}
 	}
 
-	switch(state){
-		case CONNECTED:
-			connected_action();
-			break;
-		case DISCONNECTED:
-			disconnected_action();
-			break;
-		case POWER_OFF:
-			power_off();
-			break;
-		default:
-			break;
+	if(state == CONNECTED){
+		connected_action();
 	}
+	else if(state == DISCONNECTED){
+		disconnected_action();
+	}
+	else {
+		power_off();
+	}
+
 }
 
 ISR(PCINT0_vect){
