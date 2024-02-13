@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/kevin/Dokumente/Projekte/Github/Elektronik/beeper/beeper/beeper.sch)
-    (date "2019-05-19T15:47:27 CEST")
+    (date "2019-05-20T15:39:07 CEST")
     (tool "Eeschema 5.1.0")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -184,8 +184,8 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 5C84A91B))
     (comp (ref D3)
-      (value D)
-      (footprint Diode_SMD:D_0805_2012Metric)
+      (value 1N4148)
+      (footprint Diode_SMD:D_SOD-323)
       (datasheet ~)
       (libsource (lib Device) (part D) (description Diode))
       (sheetpath (names /) (tstamps /))
