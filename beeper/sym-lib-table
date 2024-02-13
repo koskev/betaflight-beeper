@@ -1,0 +1,8 @@
+(sym_lib_table
+  (lib (name beeper-rescue)(type Legacy)(uri ${KIPRJMOD}/beeper-rescue.lib)(options "")(descr ""))
+  (lib (name pspice)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/pspice.lib)(options "")(descr ""))
+  (lib (name Power_Management)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/Power_Management.lib)(options "")(descr ""))
+  (lib (name power)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/power.lib)(options "")(descr ""))
+  (lib (name 74xx)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/74xx.lib)(options "")(descr ""))
+  (lib (name my_components)(type Legacy)(uri /home/kevin/Dokumente/Projekte/Github/Elektronik/kicad_symbols/symbols/my_components.lib)(options "")(descr ""))
+)
