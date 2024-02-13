@@ -1,8 +1,20 @@
 /*
- * main.cpp
+ * Copyright (c) 2024 Kevin Köster.
  *
- *  Created on: 14.12.2014
- *      Author: kevin
+ * This file is part of betaflight-beeper 
+ * (see https://github.com/Smeat/betaflight-beeper).
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <avr/io.h>
@@ -14,6 +26,7 @@
 
 #include <string.h>
 
+// in case we compile as C code. But compiling with g++ saves a few bytes
 #ifndef __cplusplus
 #define bool uint8_t
 #define true 1
@@ -172,6 +185,7 @@ STATIC_TEST bool is_button_long_pressed(){
 	return is_button_pressed();
 }
 
+// never tested
 #ifdef ENABLE_PATTERN_EDIT
 STATIC_TEST inline void record_pattern(uint8_t num){
 	bool initial_state = is_beeper_input_set();
