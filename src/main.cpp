@@ -37,7 +37,7 @@
 #define BEEP_PATTERN_SIZE 2
 #define BEEP_PATTERN_NUM 2
 
-#define STAGE1_TRIGGER_TIME 60 * 60 * 1000UL
+#define STAGE1_TRIGGER_TIME 15 * 60 * 1000UL
 #define STAGE1_SLEEP_CYLCLES 5
 
 #define STAGE2_TRIGGER_TIME 120 * 60 * 1000UL
@@ -49,8 +49,6 @@
 #define FREQ_TO_COMPARE_VAL(x) (F_CPU/(2*x)-1)
 
 #define SIGNAL_ACTIVE_LOW
-
-#define TURN_OFF_CONDITION (total_time > ms_to_internal(2000) && total_time < ms_to_internal(8000))
 
 #define BEEP_DELAY_TIME ms_to_internal(60*1000UL)
 
@@ -86,8 +84,9 @@ typedef struct pattern_s{
 	uint8_t repeat;
 } pattern_t;
 
-pattern_t beep_pattern[BEEP_PATTERN_NUM][BEEP_PATTERN_SIZE] = {{{WDTO_250MS, 13, WDTO_250MS, 4}, {WDTO_250MS, 13, WDTO_250MS, 0}},
-																{{WDTO_1S, 13, WDTO_1S, 4}, {WDTO_250MS, 13, WDTO_250MS, 2}}};
+// max vol = 21
+pattern_t beep_pattern[BEEP_PATTERN_NUM][BEEP_PATTERN_SIZE] = {{{WDTO_250MS, 21, WDTO_250MS, 4}, {WDTO_250MS, 21, WDTO_250MS, 0}},
+																{{WDTO_1S, 21, WDTO_1S, 4}, {WDTO_250MS, 21, WDTO_250MS, 2}}};
 uint8_t current_pattern = 0;
 
 // saves space -.-
@@ -100,11 +99,15 @@ inline void disable_pin_int(){
 	GIMSK &= ~(1 << PCIE);
 }
 
+bool is_turn_off_condition_set(){
+	return (total_time > ms_to_internal(2000) && total_time < ms_to_internal(8000));
+}
+
 inline void enable_pin_int(){
 	GIMSK |= (1 << PCIE);
 }
 
-inline bool is_beeper_input_set(){
+bool is_beeper_input_set(){
 #ifdef SIGNAL_ACTIVE_LOW
 	return !(PINB & (1 << BEEPER_IN_PIN));
 #else
@@ -130,7 +133,7 @@ inline void led_disable() {
 	LED_PORT &= ~(1 << LED_PIN);
 }
 
-inline void sleep(uint8_t time){
+void sleep(uint8_t time){
 	// TODO: disable stuff?
 
 	//enable wdt
@@ -142,7 +145,7 @@ inline void sleep(uint8_t time){
 	//wdt_disable();
 }
 
-inline bool is_button_long_pressed(){
+bool is_button_long_pressed(){
 	if(is_button_pressed()){
 		led_enable();
 		disable_pin_int();
@@ -177,7 +180,7 @@ inline void record_pattern(uint8_t num){
 }
 #endif
 
-inline void sleep_cycles(uint8_t time, uint8_t cycles){
+void sleep_cycles(uint8_t time, uint8_t cycles){
 	stop_sleep = false;
 	while(cycles && !stop_sleep){
 		sleep(time);
@@ -190,7 +193,7 @@ inline bool is_connected(){
 }
 
 // Splitting them saves a few bytes
-inline void beep_enable(uint8_t freq){
+void beep_enable(uint8_t freq){
 	// set sleep mode to idle to enable pwm
 	set_sleep_mode(SLEEP_MODE_IDLE);
 	TCNT0 = 254;
@@ -241,13 +244,13 @@ void connected_action(){
 
 	// just beep if input signal
 	if(is_beeper_input_set()) {
-		beep_enable(15);
+		beep_enable(21);
 	}
 	else {
 		beep_disable();
 	}
 
-	if(TURN_OFF_CONDITION || is_beeper_input_set() || turn_off_signal_received) {
+	if(is_turn_off_condition_set() || is_beeper_input_set() || turn_off_signal_received) {
 		led_enable();
 	}
 	else {
@@ -268,7 +271,6 @@ void connected_action(){
 			signal_time[2] > ms_to_internal(70) && signal_time[2] < ms_to_internal(130) &&
 			signal_time[1] > ms_to_internal(70) && signal_time[1] < ms_to_internal(130);
 			//&&	last_beep_status;
-
 
 	// sleep a little bit to keep the timer running. avoids using another timer
 	sleep(WDTO_15MS);
@@ -319,7 +321,7 @@ inline void on_disconnect(){
 	beep_disable();
 	led_disable();
 
-	if( TURN_OFF_CONDITION || turn_off_signal_received){
+	if( is_turn_off_condition_set() || turn_off_signal_received){
 		// power off, if bepper is set, while pulling the power <- not a good idea
 		// or total power on time is less than 8 seconds (this might impose problems, when a battery is ejected)
 		// or power on time is > 2sec and <8 sec
@@ -361,13 +363,16 @@ inline void disconnected_action(){
 			current_pattern = 0;
 		}
 	} else {
-		led_enable(); // enable led to signal we are still armed
+		// Very low noise beep to indicate armed status
+		beep_enable(5);
+		sleep(WDTO_15MS);
+		beep_disable();
 	}
 
 	// increase delay when beeping for a longer time
 	if(total_time < STAGE1_TRIGGER_TIME){
 		// STAGE 0
-		sleep_cycles(WDTO_1S, 1);
+		sleep_cycles(WDTO_2S, 1);
 	}
 	else if(total_time < STAGE2_TRIGGER_TIME){
 		// stage 1
