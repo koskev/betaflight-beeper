@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:beeper-cache
-EELAYER 26 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -121,7 +121,7 @@ U 1 1 5C3D137A
 P 5700 2750
 F 0 "BZ1" H 5850 2800 50  0000 L CNN
 F 1 "Buzzer" H 5850 2700 50  0000 L CNN
-F 2 "Buzzer_Beeper:Buzzer_12x9.5RM7.6" V 5675 2850 50  0001 C CNN
+F 2 "buzzer:Buzzer_12x9.5RM7.6_oval3" V 5675 2850 50  0001 C CNN
 F 3 "" V 5675 2850 50  0001 C CNN
 	1    5700 2750
 	1    0    0    -1  
@@ -525,7 +525,7 @@ Text Notes 750  550  0    60   ~ 0
 KiCad Power
 Text Notes 800  1350 0    60   ~ 0
 Input from FC
-Text Label 2950 3700 0    60   ~ 0
+Text Label 1850 3700 0    60   ~ 0
 BUZZER_OUT
 Text Label 3500 750  2    60   ~ 0
 BUZZER_OUT
@@ -732,8 +732,6 @@ Wire Wire Line
 	1050 4400 1650 4400
 Wire Wire Line
 	2750 3800 2850 3800
-Wire Wire Line
-	2950 3700 3400 3700
 Text Notes 500  1650 0    50   ~ 0
 Pulldown since the avr \ncan only do pullup
 $Comp
@@ -822,4 +820,42 @@ Connection ~ 5150 2600
 Wire Wire Line
 	5150 2900 4450 2900
 Connection ~ 5150 2900
+$Comp
+L beeper-rescue:Buzzer BZ2
+U 1 1 5CDB2B4E
+P 6300 2750
+F 0 "BZ2" H 6450 2800 50  0000 L CNN
+F 1 "Buzzer" H 6450 2700 50  0000 L CNN
+F 2 "Buzzer_Beeper:Buzzer_Murata_PKMCS0909E4000-R1" V 6275 2850 50  0001 C CNN
+F 3 "" V 6275 2850 50  0001 C CNN
+	1    6300 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 2600 6200 2600
+Wire Wire Line
+	6200 2600 6200 2650
+Connection ~ 5600 2600
+Wire Wire Line
+	6200 2850 6200 2900
+Wire Wire Line
+	6200 2900 5600 2900
+Connection ~ 5600 2900
+$Comp
+L Device:Jumper_NO_Small JP1
+U 1 1 5CE17746
+P 2300 3700
+F 0 "JP1" H 2250 4000 50  0000 C CNN
+F 1 "enable buzzer" H 2300 3850 50  0000 C CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm" H 2300 3700 50  0001 C CNN
+F 3 "~" H 2300 3700 50  0001 C CNN
+	1    2300 3700
+	1    0    0    -1  
+$EndComp
+Text Notes 1900 3150 0    50   ~ 10
+Remove this jumper for flashing
+Wire Wire Line
+	1850 3700 2200 3700
+Wire Wire Line
+	2400 3700 3400 3700
 $EndSCHEMATC
