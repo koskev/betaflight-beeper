@@ -1,4 +1,4 @@
-update=Sa 09 Mär 2019 14:32:57 CET
+update=2019-05-13T21:25:46 CEST
 version=1
 last_client=kicad
 [general]
@@ -30,3 +30,13 @@ NetIExt=net
 [eeschema]
 version=1
 LibDir=
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=../../../../../../../../tmp/plan/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceAjustPassiveValues=0
+LabSize=50
+ERC_TestSimilarLabels=1

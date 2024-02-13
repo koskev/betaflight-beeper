@@ -25,7 +25,7 @@ F 3 "" H 3650 4300 50  0001 C CNN
 	1    4450 3950
 	1    0    0    -1  
 $EndComp
-Text Label 2950 3700 0    60   ~ 0
+Text Label 2900 4000 0    60   ~ 0
 Beeper_in
 $Comp
 L power:GND #PWR01
@@ -118,12 +118,12 @@ $EndComp
 $Comp
 L beeper-rescue:Buzzer BZ1
 U 1 1 5C3D137A
-P 5050 2750
-F 0 "BZ1" H 5200 2800 50  0000 L CNN
-F 1 "Buzzer" H 5200 2700 50  0000 L CNN
-F 2 "Buzzer_Beeper:Buzzer_12x9.5RM7.6" V 5025 2850 50  0001 C CNN
-F 3 "" V 5025 2850 50  0001 C CNN
-	1    5050 2750
+P 5700 2750
+F 0 "BZ1" H 5850 2800 50  0000 L CNN
+F 1 "Buzzer" H 5850 2700 50  0000 L CNN
+F 2 "Buzzer_Beeper:Buzzer_12x9.5RM7.6" V 5675 2850 50  0001 C CNN
+F 3 "" V 5675 2850 50  0001 C CNN
+	1    5700 2750
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -131,11 +131,11 @@ L beeper-rescue:Q_NMOS_GSD Q2
 U 1 1 5C3D1462
 P 2600 1350
 F 0 "Q2" H 2800 1400 50  0000 L CNN
-F 1 "Q_NMOS_DGS" H 2800 1300 50  0000 L CNN
+F 1 "irlml2502" H 2800 1300 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 2800 1450 50  0001 C CNN
 F 3 "" H 2600 1350 50  0001 C CNN
 	1    2600 1350
-	-1   0    0    1   
+	-1   0    0    -1  
 $EndComp
 $Comp
 L pspice:R R5
@@ -313,7 +313,7 @@ L pspice:R R4
 U 1 1 5C3E65D1
 P 2850 1650
 F 0 "R4" V 2930 1650 50  0000 C CNN
-F 1 "100k" V 2850 1650 50  0000 C CNN
+F 1 "10k" V 2850 1650 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" H 2850 1650 50  0001 C CNN
 F 3 "" H 2850 1650 50  0001 C CNN
 	1    2850 1650
@@ -328,50 +328,6 @@ F 1 "GND" H 2500 1800 50  0000 C CNN
 F 2 "" H 2500 1950 50  0001 C CNN
 F 3 "" H 2500 1950 50  0001 C CNN
 	1    2500 1950
-	1    0    0    -1  
-$EndComp
-$Comp
-L beeper-rescue:TEST_1P J3
-U 1 1 5C3E3019
-P 3450 5050
-F 0 "J3" H 3450 5320 50  0000 C CNN
-F 1 "TEST_1P" H 3450 5250 50  0000 C CNN
-F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 3650 5050 50  0001 C CNN
-F 3 "" H 3650 5050 50  0001 C CNN
-	1    3450 5050
-	-1   0    0    1   
-$EndComp
-$Comp
-L beeper-rescue:TEST_1P J2
-U 1 1 5C3E319D
-P 3400 3600
-F 0 "J2" H 3400 3870 50  0000 C CNN
-F 1 "TEST_1P" H 3400 3800 50  0000 C CNN
-F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 3600 3600 50  0001 C CNN
-F 3 "" H 3600 3600 50  0001 C CNN
-	1    3400 3600
-	1    0    0    -1  
-$EndComp
-$Comp
-L beeper-rescue:TEST_1P J5
-U 1 1 5C3E375D
-P 900 4400
-F 0 "J5" H 900 4670 50  0000 C CNN
-F 1 "TEST_1P" H 900 4600 50  0000 C CNN
-F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 1100 4400 50  0001 C CNN
-F 3 "" H 1100 4400 50  0001 C CNN
-	1    900  4400
-	0    -1   -1   0   
-$EndComp
-$Comp
-L beeper-rescue:TEST_1P J4
-U 1 1 5C3E395C
-P 2800 3600
-F 0 "J4" H 2800 3870 50  0000 C CNN
-F 1 "TEST_1P" H 2800 3800 50  0000 C CNN
-F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 3000 3600 50  0001 C CNN
-F 3 "" H 3000 3600 50  0001 C CNN
-	1    2800 3600
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -569,7 +525,7 @@ Text Notes 750  550  0    60   ~ 0
 KiCad Power
 Text Notes 800  1350 0    60   ~ 0
 Input from FC
-Text Label 2900 4000 0    60   ~ 0
+Text Label 2950 3700 0    60   ~ 0
 BUZZER_OUT
 Text Label 3500 750  2    60   ~ 0
 BUZZER_OUT
@@ -608,8 +564,6 @@ Wire Wire Line
 Wire Wire Line
 	2950 750  3500 750 
 Wire Wire Line
-	2950 3700 3400 3700
-Wire Wire Line
 	500  2300 1100 2300
 Wire Wire Line
 	800  2400 1200 2400
@@ -626,8 +580,6 @@ Wire Wire Line
 Wire Wire Line
 	2800 2800 2800 2450
 Connection ~ 2800 2800
-Wire Wire Line
-	2750 3800 2800 3800
 Wire Wire Line
 	5450 4200 5600 4200
 Wire Wire Line
@@ -659,12 +611,6 @@ Wire Wire Line
 Wire Wire Line
 	2300 3800 2350 3800
 Wire Wire Line
-	2800 3600 2800 3800
-Connection ~ 2800 3800
-Wire Wire Line
-	3400 3700 3400 3600
-Connection ~ 3400 3700
-Wire Wire Line
 	1100 1550 1100 1650
 Wire Wire Line
 	1100 2150 1100 2300
@@ -676,7 +622,6 @@ Wire Wire Line
 	4000 4400 4050 4400
 Wire Wire Line
 	3450 4750 3500 4750
-Connection ~ 3450 4750
 Wire Wire Line
 	4000 4750 4100 4750
 Wire Wire Line
@@ -703,10 +648,6 @@ Wire Wire Line
 	6850 850  6850 1350
 Wire Wire Line
 	6850 1350 6800 1350
-Wire Wire Line
-	2950 3900 3450 3900
-Wire Wire Line
-	900  4400 1050 4400
 Wire Wire Line
 	1050 4400 1050 4450
 Wire Wire Line
@@ -737,14 +678,13 @@ Text Notes 750  4100 0    60   ~ 0
 Status LED
 Wire Notes Line
 	1800 5750 450  5750
-Connection ~ 1050 4400
 $Comp
 L my_components:Battery_Cell_switched BT1
 U 1 1 5C847475
 P 4400 1000
 F 0 "BT1" H 4500 1100 50  0000 L CNN
 F 1 "Battery_Cell_switched" H 3950 950 50  0000 L CNN
-F 2 "Connector_PinHeader_1.00mm:PinHeader_2x01_P1.00mm_Vertical_SMD" V 4400 1060 50  0001 C CNN
+F 2 "Connector_PinHeader_2.00mm:PinHeader_2x01_P2.00mm_Vertical" V 4400 1060 50  0001 C CNN
 F 3 "" V 4400 1060 50  0001 C CNN
 	1    4400 1000
 	1    0    0    -1  
@@ -752,68 +692,20 @@ $EndComp
 $Comp
 L power:VCC #PWR025
 U 1 1 5C83D9E9
-P 4150 2700
-F 0 "#PWR025" H 4150 2550 50  0001 C CNN
-F 1 "VCC" H 4150 2850 50  0000 C CNN
-F 2 "" H 4150 2700 50  0001 C CNN
-F 3 "" H 4150 2700 50  0001 C CNN
-	1    4150 2700
+P 4950 2600
+F 0 "#PWR025" H 4950 2450 50  0001 C CNN
+F 1 "VCC" H 4950 2750 50  0000 C CNN
+F 2 "" H 4950 2600 50  0001 C CNN
+F 3 "" H 4950 2600 50  0001 C CNN
+	1    4950 2600
 	0    -1   -1   0   
 $EndComp
-$Comp
-L beeper-rescue:Jumper_NC_Dual JP1
-U 1 1 5C83E5B6
-P 4550 2400
-F 0 "JP1" H 4600 2300 50  0000 L CNN
-F 1 "Jumper_NC_Dual" H 4550 2500 50  0000 C BNN
-F 2 "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm" H 4550 2400 50  0001 C CNN
-F 3 "" H 4550 2400 50  0001 C CNN
-	1    4550 2400
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	4950 2650 4550 2650
-Wire Wire Line
-	4550 2650 4550 2500
-Wire Wire Line
-	4800 2400 5600 2400
-$Comp
-L beeper-rescue:Jumper_NC_Dual JP2
-U 1 1 5C83EAE0
-P 4550 3000
-F 0 "JP2" H 4600 2900 50  0000 L CNN
-F 1 "Jumper_NC_Dual" H 4550 3100 50  0000 C BNN
-F 2 "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm" H 4550 3000 50  0001 C CNN
-F 3 "" H 4550 3000 50  0001 C CNN
-	1    4550 3000
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	4550 2900 4550 2850
-Wire Wire Line
-	4550 2850 4950 2850
-Wire Wire Line
-	5600 3000 4800 3000
-Wire Wire Line
-	4300 2400 4250 2400
-Wire Wire Line
-	4250 2400 4250 2700
-Wire Wire Line
-	4250 3000 4300 3000
-Wire Wire Line
-	4150 2700 4250 2700
-Connection ~ 4250 2700
-Wire Wire Line
-	5600 2400 5600 2750
-Connection ~ 5600 2750
-Text Label 6200 2750 2    60   ~ 0
+Text Label 4450 2900 0    60   ~ 0
 BUZZER_GND
-Wire Wire Line
-	5600 2750 6200 2750
 Text Label 2500 550  3    60   ~ 0
 BUZZER_GND
 Text Notes 5500 2350 0    60   ~ 0
-Buzzer polarity selection\n
+Buzzer with diode\n
 Wire Notes Line
 	3850 3200 7200 3200
 Wire Wire Line
@@ -827,15 +719,9 @@ Wire Wire Line
 Wire Wire Line
 	2850 1350 2950 1350
 Wire Wire Line
-	2800 3800 3450 3800
-Wire Wire Line
-	3400 3700 3450 3700
-Wire Wire Line
 	1100 2300 1200 2300
 Wire Wire Line
 	3450 4400 3450 4750
-Wire Wire Line
-	3450 4750 3450 5050
 Wire Wire Line
 	5800 1900 5800 2000
 Wire Wire Line
@@ -845,7 +731,116 @@ Wire Wire Line
 Wire Wire Line
 	1050 4400 1650 4400
 Wire Wire Line
-	4250 2700 4250 3000
+	2750 3800 2850 3800
 Wire Wire Line
-	5600 2750 5600 3000
+	2950 3700 3400 3700
+Text Notes 500  1650 0    50   ~ 0
+Pulldown since the avr \ncan only do pullup
+$Comp
+L beeper-rescue:TEST_1P J2
+U 1 1 5C84337F
+P 2650 4000
+F 0 "J2" H 2592 4027 50  0000 R CNN
+F 1 "SCK" H 2592 4118 50  0000 R CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 2850 4000 50  0001 C CNN
+F 3 "" H 2850 4000 50  0001 C CNN
+	1    2650 4000
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2650 3900 2650 4000
+Wire Wire Line
+	2650 3900 3450 3900
+$Comp
+L beeper-rescue:TEST_1P J3
+U 1 1 5C84707B
+P 2850 3550
+F 0 "J3" H 2908 3670 50  0000 L CNN
+F 1 "MISO" H 2908 3579 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 3050 3550 50  0001 C CNN
+F 3 "" H 3050 3550 50  0001 C CNN
+	1    2850 3550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2850 3550 2850 3800
+Connection ~ 2850 3800
+Wire Wire Line
+	2850 3800 3450 3800
+$Comp
+L beeper-rescue:TEST_1P J5
+U 1 1 5C848950
+P 3400 3500
+F 0 "J5" H 3458 3620 50  0000 L CNN
+F 1 "MOSI" H 3458 3529 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 3600 3500 50  0001 C CNN
+F 3 "" H 3600 3500 50  0001 C CNN
+	1    3400 3500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3400 3500 3400 3700
+Connection ~ 3400 3700
+Wire Wire Line
+	3400 3700 3450 3700
+$Comp
+L beeper-rescue:TEST_1P J4
+U 1 1 5C84A91B
+P 3300 4750
+F 0 "J4" V 3495 4824 50  0000 C CNN
+F 1 "RST" V 3404 4824 50  0000 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 3500 4750 50  0001 C CNN
+F 3 "" H 3500 4750 50  0001 C CNN
+	1    3300 4750
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3300 4750 3450 4750
+Connection ~ 3450 4750
+$Comp
+L Device:D D3
+U 1 1 5CDA5B53
+P 5150 2750
+F 0 "D3" V 5104 2829 50  0000 L CNN
+F 1 "D" V 5195 2829 50  0000 L CNN
+F 2 "Diode_SMD:D_0805_2012Metric" H 5150 2750 50  0001 C CNN
+F 3 "~" H 5150 2750 50  0001 C CNN
+	1    5150 2750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5150 2900 5600 2900
+Wire Wire Line
+	5600 2900 5600 2850
+Wire Wire Line
+	5150 2600 5600 2600
+Wire Wire Line
+	5600 2600 5600 2650
+Wire Wire Line
+	4950 2600 5150 2600
+Connection ~ 5150 2600
+Wire Wire Line
+	5150 2900 4450 2900
+Connection ~ 5150 2900
+$Comp
+L beeper-rescue:Buzzer BZ2
+U 1 1 5CDB2B4E
+P 6300 2750
+F 0 "BZ2" H 6450 2800 50  0000 L CNN
+F 1 "Buzzer" H 6450 2700 50  0000 L CNN
+F 2 "Buzzer_Beeper:Buzzer_Murata_PKMCS0909E4000-R1" V 6275 2850 50  0001 C CNN
+F 3 "" V 6275 2850 50  0001 C CNN
+	1    6300 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 2600 6200 2600
+Wire Wire Line
+	6200 2600 6200 2650
+Connection ~ 5600 2600
+Wire Wire Line
+	6200 2850 6200 2900
+Wire Wire Line
+	6200 2900 5600 2900
+Connection ~ 5600 2900
 $EndSCHEMATC
