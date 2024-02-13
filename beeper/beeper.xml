@@ -2,8 +2,8 @@
 <export version="D">
   <design>
     <source>/home/kevin/Dokumente/Projekte/Github/Elektronik/beeper/beeper/beeper.sch</source>
-    <date>2019-05-19T22:46:17 CEST</date>
-    <tool>Eeschema 5.1.0</tool>
+    <date>2019-08-13T12:53:56 CEST</date>
+    <tool>Eeschema 5.1.2</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
         <title/>
@@ -216,8 +216,8 @@
       <tstamp>5C84A91B</tstamp>
     </comp>
     <comp ref="D3">
-      <value>D</value>
-      <footprint>Diode_SMD:D_0805_2012Metric</footprint>
+      <value>1N4148</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
       <datasheet>~</datasheet>
       <libsource lib="Device" part="D" description="Diode"/>
       <sheetpath names="/" tstamps="/"/>
